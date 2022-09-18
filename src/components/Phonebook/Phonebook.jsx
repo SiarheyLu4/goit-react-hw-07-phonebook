@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Notify } from 'notiflix';
+import { useEffect } from 'react';
 
 import { ContactForm } from "components/ContactForm/ContactForm";
 import { Filter } from "components/Filter/Filter";
@@ -9,6 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { addContact, removeContact } from 'redux/contacts/contacts-actions';
 import { setFilter } from "redux/filter/filter-actions";
+import { fetchContacts } from 'redux/contacts/contacts-operations';
 
 import { getFilterContacts } from 'redux/contacts/contacts-selectors';
 import { getFilter } from 'redux/filter/filter-selectors';
@@ -19,6 +21,10 @@ const Phonebook = () => {
   const filter = useSelector(getFilter)
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchContacts())
+  }, [dispatch]);
 
   const onAddContact = (payload) => {
     // console.log(payload);

@@ -5,9 +5,9 @@ import styled from 'styled-components';
 export const ContactList = ({ contacts, deleteContact }) => {
   return (
     <Ul>
-      {contacts.sort((a, b) => a.name.localeCompare(b.name)).map(({id, name, number}) => (
+      {contacts.sort((a, b) => a.name.localeCompare(b.name)).map(({id, name, phone}) => (
         
-        <Li key={id}>{name}: {number}
+        <Li key={id}>{name}: {phone}
             <Btm type='' onClick={() => deleteContact(id, name)}> Del </Btm>
         </Li>
         

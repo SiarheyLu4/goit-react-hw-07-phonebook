@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 export function ContactForm({addContact}) {
   const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+  const [phone, setPhone] = useState('');
 
   const onChangeForm = e => {
     const { name, value } = e.target;
@@ -14,7 +14,7 @@ export function ContactForm({addContact}) {
         break;
       
       case 'number':
-        setNumber(value);
+        setPhone(value);
         break;
       
       default:
@@ -24,9 +24,9 @@ export function ContactForm({addContact}) {
 
   const onSubmit = e => {
     e.preventDefault();
-    addContact({name, number});
+    addContact({name, phone});
     setName('');
-    setNumber('');
+    setPhone('');
   }
 
   return (
@@ -53,7 +53,7 @@ export function ContactForm({addContact}) {
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
             required
             placeholder="123-45-67"
-            value={number}
+            value={phone}
             onChange={onChangeForm}
           />
         </Label>

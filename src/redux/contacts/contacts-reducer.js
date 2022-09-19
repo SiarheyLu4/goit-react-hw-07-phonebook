@@ -1,12 +1,6 @@
 import { createReducer } from "@reduxjs/toolkit";
 
-import {
-  addContact,
-  removeContact,
-  fetchContactsLoading,
-  fetchContactsSuccess,
-  fetchContactsError
-} from "./contacts-actions";
+import actions from "./contacts-actions";
 
 const initialStore = {
   items: [],
@@ -15,20 +9,32 @@ const initialStore = {
 }
 
 const contactsReducer = createReducer(initialStore, {
-  [fetchContactsLoading]: (store) => {
+  [actions.fetchContactsLoading]: (store) => {
     store.loading = true;
     store.error = null;
   },
-  [fetchContactsSuccess]: (store, { payload }) => {
+  [actions.fetchContactsSuccess]: (store, { payload }) => {
     store.items = payload;
     store.loading = false;
   },
-  [fetchContactsError]: (store, { payload }) => {
+  [actions.fetchContactsError]: (store, { payload }) => {
     store.loading = false;
     store.error = payload;
   },
-  [addContact]: (store, {payload}) => [...store, payload],
-  [removeContact]: (store, {payload}) => store.filter(({ id }) => id !== payload)
+  // [actions.addContact]: (store, {payload}) => [...store, payload],
+  // [removeContact]: (store, {payload}) => store.filter(({ id }) => id !== payload)
+  [actions.addContactLoading]: (store) => {
+    store.loading = true;
+    store.error = null;
+  },
+  [actions.addContactSuccess]: (store, { payload }) => {
+    store.loading = false;
+    store.items.push(payload);
+  },
+  [actions.addContactError]: (store, { payload }) => {
+    store.loading = false;
+    store.error = payload;
+  }
 })
 
 export default contactsReducer;

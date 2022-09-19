@@ -1,25 +1,21 @@
-import { nanoid } from "nanoid"
 import { createAction } from "@reduxjs/toolkit"
 
+const fetchContactsLoading = createAction("contacts/fetch/loading");
+const fetchContactsSuccess = createAction("contacts/fetch/success");
+const fetchContactsError = createAction("contacts/fetch/error");
 
-// export const fetchContacts = createAction("contacts/fetch", () => {
-//   axios.get("https://63276092ba4a9c475335f3cc.mockapi.io/contacts")
-//     .then(({data}) => )
-// });
-
-export const fetchContactsLoading = createAction("contacts/fetch/loading");
-export const fetchContactsSuccess = createAction("contacts/fetch/success");
-export const fetchContactsError = createAction("contacts/fetch/error");
+const addContactLoading = createAction("contacts/add/loading");
+const addContactSuccess = createAction("contacts/add/success");
+const addContactError = createAction("contacts/add/error");
 
 
+const actions = {
+  fetchContactsLoading,
+  fetchContactsSuccess,
+  fetchContactsError,
+  addContactLoading,
+  addContactSuccess,
+  addContactError,
+}
 
-export const addContact = createAction("contact/add", (data) => {
-  return {
-    payload: {
-      ...data,
-      id: nanoid()
-    }
-  }
-});
-
-export const removeContact = createAction("contact/remove")
+export default actions;

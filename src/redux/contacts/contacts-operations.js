@@ -1,8 +1,23 @@
 import { Notify } from 'notiflix';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import * as api from "shared/api/contacts";
-import actions from "./contacts-actions";
+// import actions from "./contacts-actions";
 
+export const fetchContacts = createAsyncThunk(
+  "contacts/fetch",
+  async (_, thunkAPI) => {
+    try {
+      const data = await api.getContacts();
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+)
+
+
+/*
 export const fetchContacts = () => {
   const func = async (dispatch) => {
     try {
@@ -17,6 +32,8 @@ export const fetchContacts = () => {
 
   return func;
 };
+*/
+
 
 const isDublicate = ({ name }, contacts) => {
   const normalizedName = name.toLowerCase();
@@ -28,6 +45,30 @@ const isDublicate = ({ name }, contacts) => {
   return Boolean(result);
 }
 
+export const addContact = createAsyncThunk(
+  "contacts/add", 
+  async (data, {rejectWithValue}) => {
+    try {
+      const result = await api.addContact(data);
+      Notify.success(`${data.name} added to contacts`, { position: "center-top"});
+      return result;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+  {
+    condition: (data, { getState }) => {
+      const { contacts } = getState();
+      if (isDublicate(data, contacts.items)) {
+        Notify.warning(`${data.name} is already in contacts`, { position: "center-top" }); 
+        return false;
+      }
+    }
+  }
+)
+
+
+/*
 export const addContact = (data) => {
   const func = async (dispatch, getState) => {
     const { contacts } = getState();
@@ -46,7 +87,22 @@ export const addContact = (data) => {
 
   return func;
 }
+*/
 
+export const removeContact = createAsyncThunk(
+  "contacts/remove", 
+  async (id, {rejectWithValue}) => {
+    try {
+      await api.removeContact(id);
+      Notify.info('added to contacts', { position: "center-top"});
+      return id;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+)
+
+/*
 export const removeContact = (id) => {
   const func = async (dispatch) => {
     try {
@@ -61,3 +117,4 @@ export const removeContact = (id) => {
 
   return func;
 }
+*/

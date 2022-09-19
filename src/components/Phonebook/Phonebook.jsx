@@ -26,21 +26,12 @@ const Phonebook = () => {
   }, [dispatch]);
 
   const onAddContact = (payload) => {
-    // console.log(payload);
-    if (contacts.find(contact => contact.name === payload.name)) {
-      Notify.warning(`${payload.name} is already in contacts`, { position: "center-top"}); 
-        return
-    };
     const action = addContact(payload);
     dispatch(action);
-    Notify.success(`${payload.name} added to contacts`, { position: "center-top"});
   }
 
   const onRemoveContact = (payload, name) => {
-    // console.log(payload);
-    // console.log(name);
     dispatch(removeContact(payload));
-    Notify.info(`${name} added to contacts`, { position: "center-top"});
   }
 
   const onSetFilter = ({target}) => {

@@ -21,8 +21,7 @@ const contactsReducer = createReducer(initialStore, {
     store.loading = false;
     store.error = payload;
   },
-  // [actions.addContact]: (store, {payload}) => [...store, payload],
-  // [removeContact]: (store, {payload}) => store.filter(({ id }) => id !== payload)
+  
   [actions.addContactLoading]: (store) => {
     store.loading = true;
     store.error = null;
@@ -32,6 +31,19 @@ const contactsReducer = createReducer(initialStore, {
     store.items.push(payload);
   },
   [actions.addContactError]: (store, { payload }) => {
+    store.loading = false;
+    store.error = payload;
+  },
+
+  [actions.removeContactLoading]: (store) => {
+    store.loading = true;
+    store.error = null;
+  },
+  [actions.removeContactSuccess]: (store, { payload }) => {
+    store.loading = false;
+    store.items = store.items.filter(({ id }) => id !== payload);
+  },
+  [actions.removeContactError]: (store, { payload }) => {
     store.loading = false;
     store.error = payload;
   }

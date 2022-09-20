@@ -5,3 +5,5 @@ export const getFilterContacts = ({ contacts, filter }) => {
   return contacts.items.filter(contact =>
     contact.name.toLowerCase().includes(normalizedFilter));
 };
+
+export const getLoader = ({ contacts }) => contacts.loading;

@@ -1,9 +1,14 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import styled from 'styled-components';
 
-export function ContactForm({addContact}) {
+import { addContact } from "redux/contacts/contacts-operations";
+
+export function ContactForm() {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
+
+  const dispatch = useDispatch();
 
   const onChangeForm = e => {
     const { name, value } = e.target;
@@ -22,9 +27,14 @@ export function ContactForm({addContact}) {
     }
   }
 
+  const onAddContact = (payload) => {
+    const action = addContact(payload);
+    dispatch(action);
+  }
+
   const onSubmit = e => {
     e.preventDefault();
-    addContact({name, phone});
+    onAddContact({name, phone});
     setName('');
     setPhone('');
   }
@@ -90,69 +100,3 @@ const Btm = styled.button`
     background: #d3a6a6;
   }
 `
-
-
-
-
-
-
-
-
-
-
-
-
-// export class OldContactForm extends Component {
-//   // state = {
-//   //   name: '',
-//   //   number: ''
-//   // }
-
-//   // onChangeForm = (event) => this.setState({ [event.target.name]: event.target.value });
-
-//   onSubmit = (event) => {
-//     event.preventDefault();
-//     this.props.addContact(this.state);
-//     this.setState({
-//       name: '',
-//       number: ''
-//     });
-//   }
-
-//   render() {
-//     const { onChangeForm, onSubmit } = this;
-//     const { name, number } = this.state;
-
-//     return (
-//       <Form onSubmit={onSubmit}>
-//           <Label>
-//             Name
-//             <Input
-//               type="text"
-//               name="name"
-//               pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-//               title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-//               required
-//               placeholder="Jacob Mercer"
-//               value={name}
-//               onChange={onChangeForm}
-//             />
-//           </Label>
-//           <Label>
-//             Number
-//             <Input
-//               type="tel"
-//               name="number"
-//               pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-//               title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-//               required
-//               placeholder="123-45-67"
-//               value={number}
-//               onChange={onChangeForm}
-//             />
-//           </Label>
-//           <Btm type="submit">Add contact</Btm>
-//         </Form>
-//     )
-//   }
-// }

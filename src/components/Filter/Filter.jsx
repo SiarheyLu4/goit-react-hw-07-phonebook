@@ -1,16 +1,27 @@
 import React from "react";
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { useSelector, useDispatch } from "react-redux";
 
-export const Filter = ({value, onChange}) => {
+import { getFilter } from "redux/filter/filter-selectors";
+import { setFilter } from "redux/filter/filter-actions";
+
+export const Filter = () => {
+  const filter = useSelector(getFilter);
+
+  const dispatch = useDispatch();
+
+  const onSetFilter = ({target}) => {
+    dispatch(setFilter(target.value));
+  }
+
   return (
     <Label>Find contacts by name
           <Input
             type="search"
             name="filter"
             placeholder="enter part or all of the name"
-            value={value}
-            onChange={onChange}
+            value={filter}
+            onChange={onSetFilter}
           />
         </Label>
   )
@@ -28,8 +39,3 @@ const Label = styled.label`
   display: flex;
   flex-direction: column;
 `
-
-Filter.propTypes = {
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-}

@@ -1,14 +1,25 @@
 import React from "react";
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { useSelector, useDispatch } from "react-redux";
 
-export const ContactList = ({ contacts, deleteContact }) => {
+import { getFilterContacts } from "redux/contacts/contacts-selectors";
+import { removeContact } from "redux/contacts/contacts-operations";
+
+export const ContactList = () => {
+  const contacts = useSelector(getFilterContacts);
+
+  const dispatch = useDispatch();
+
+  const onRemoveContact = (id) => {
+    dispatch(removeContact(id));
+  }
+
   return (
     <Ul>
       {contacts.sort((a, b) => a.name.localeCompare(b.name)).map(({id, name, phone}) => (
         
         <Li key={id}>{name}: {phone}
-            <Btm type='' onClick={() => deleteContact(id, name)}> Del </Btm>
+            <Btm type='' onClick={() => onRemoveContact(id, name)}> Del </Btm>
         </Li>
         
       ))}
@@ -35,8 +46,3 @@ const Ul = styled.ul`
 const Li = styled.li`
   padding: 2px 0;
 `
-
-ContactList.propTypes = {
-  getFilterContacts: PropTypes.func.isRequired,
-  deleteContact: PropTypes.func.isRequired
-}
